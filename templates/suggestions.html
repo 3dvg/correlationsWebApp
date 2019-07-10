@@ -1,0 +1,39 @@
+<div class="grid">
+    <div class="nOc">
+        <span>Number of occurences: {{nOccurrences}}</span>
+    </div>
+    {% for graph in graphs %}
+    <div id="cell" class="cell">
+        <!--<div class="1stRow">
+            <span class="1stRow_elem">Last N days</span>
+            <span class="1stRow_elem">{{startDate}}</span>
+            <span class="1stRow_elem">{{endDate}}</span>
+            <span class="1stRow_elem">{{pctChange}}</span>
+        </div>
+        <div class="2ndRow">
+            <span class="2ndRow_elem">Occurence N days</span>
+            <span class="2ndRow_elem">{{startDate}}</span>
+            <span class="2ndRow_elem">{{endDate}}</span>
+            <span class="2ndRow_elem">{{pctChange}}</span>
+        </div>-->
+        <table>
+            <tr>
+                <td>Last N days</td>
+                <td>{{startDate}}</td>
+                <td>{{endDate}}</td>
+                <td>{{pctChange}}</td>
+            </tr>
+            <tr>
+                <td>Occurence N days</td>
+                <td>{{startDate}}</td>
+                <td>{{endDate}}</td>
+                <td>{{pctChange}}</td>
+            </tr>
+        </table>
+        <div class="3rdRow">
+            <img src="{{ graph }}">
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
