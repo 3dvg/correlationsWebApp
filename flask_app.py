@@ -48,16 +48,21 @@ def suggestions():
     # graph_list = getCorrData(lookback, ndays, ndays, 'CHRIS/CME_ES1')
 
     corrData = []
+    statistics = {}
+    occ = 0
     for i in range(0, lookback, ndays):
         global iterate
         iterate = i
 
         corrData.append(getCorrData(
-            lookback, ndays, ndays, instrument, i, corr_filter))
+            lookback, ndays, instrument, i, corr_filter, occ))
 
         statistics = getLoops()
-        print(statistics['startActual'],
-              statistics['endActual'], statistics['pctChange'])
+        if statistics:
+            print(statistics['startActual'],
+                  statistics['endActual'], statistics['pctChange'])
+        else:
+            print("NO HAY STATS")
 
     occ = getOccurrences()
     return render_template('suggestions.html', nOccurrences=occ, graphs=corrData, instr=instrument, startDate=statistics['startActual'], endDate=statistics['endActual'], pctChange=statistics['pctChange'])
