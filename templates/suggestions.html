@@ -1,10 +1,11 @@
+<div class="nOc">
+    <span>Number of occurences: {{nOccurrences}}</span>
+</div>
 <div class="grid">
-    <div class="nOc">
-        <span>Number of occurences: {{nOccurrences}}</span>
-    </div>
     {% for graph in graphs %}
+    {% if graph %}
     <div id="cell" class="cell">
-        {% if graph %}
+
         <!--<div class="1stRow">
             <span class="1stRow_elem">Last N days</span>
             <span class="1stRow_elem">{{startDate}}</span>
@@ -36,8 +37,9 @@
             <img src="{{ graph }}">
 
         </div>
-        {% endif %}
+
     </div>
-    <hr>
+    {% endif %}
+    <!--<hr>-->
     {% endfor %}
 </div>

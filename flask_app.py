@@ -13,8 +13,14 @@ app = Flask(__name__)
 lookback = 600
 iterate = 30
 step = 30
+
+stop_run = False
+
+
 @app.route('/suggestions', methods=['GET', 'POST'])
 def suggestions():
+    global stop_run
+    stop_run = False
     ndays = int(request.args.get('ndays'))
 
     global lookback
@@ -40,10 +46,10 @@ def suggestions():
     corr_filter = int(request.args.get('correlation'))
 
     print(n_instrument, instrument, lookback, corr_filter)
-    suggestions_list = []
+    '''suggestions_list = []
 
     for j in range(0, ndays):
-        suggestions_list.append(j)
+        suggestions_list.append(j)'''
 
     # graph_list = getCorrData(lookback, ndays, ndays, 'CHRIS/CME_ES1')
 
@@ -51,21 +57,29 @@ def suggestions():
     statistics = {}
     occ = 0
     for i in range(0, lookback, ndays):
-        global iterate
-        iterate = i
+        if not stop_run:
+            global iterate
+            iterate = i
 
-        corrData.append(getCorrData(
-            lookback, ndays, instrument, i, corr_filter, occ))
+            corrData.append(getCorrData(
+                lookback, ndays, instrument, i, corr_filter, occ))
 
-        statistics = getLoops()
-        if statistics:
-            print(statistics['startActual'],
-                  statistics['endActual'], statistics['pctChange'])
-        else:
-            print("NO HAY STATS")
+            statistics = getLoops()
+            if statistics:
+                print(statistics['startActual'],
+                      statistics['endActual'], statistics['pctChange'])
+            else:
+                print("NO HAY STATS")
 
     occ = getOccurrences()
     return render_template('suggestions.html', nOccurrences=occ, graphs=corrData, instr=instrument, startDate=statistics['startActual'], endDate=statistics['endActual'], pctChange=statistics['pctChange'])
+
+
+@app.route("/stop", methods=['GET'])
+def set_stop_run():
+    global stop_run
+    stop_run = True
+    return "Application stopped"
 
 
 @app.route('/')
@@ -76,19 +90,22 @@ def graphs():
 @app.route('/progress', methods=['GET', 'POST'])
 def progress():
     def generate():
-        print(iterate, lookback, step)
+        print("--", iterate, lookback, step)
         x = 0
         y = 100
-        s = int(math.ceil((step - 0)/(lookback-0)*100))
+        s = int(math.floor((step - 0)/(lookback-0)*100))
         x = s
         while x < y:
-            print(x, y, s)
-            time.sleep(3)
-            if x > y:
-                x = y
-            else:
-                x = int(math.ceil((iterate - 0)/(lookback-0)*100)) + s
-            yield "data:" + str(x) + "\n\n"
+            global stop_run
+            if not stop_run:
+                print(x, y, s)
+                time.sleep(3)
+                if x >= y or x+s >= y:
+                    print("JODIDO")
+                    x = 100
+                else:
+                    x = int(math.ceil((iterate - 0)/(lookback-0)*100)) + s
+                yield "data:" + str(x) + "\n\n"
 
             #print('-----> ', x, y, x+s, y-s)
     return Response(generate(), mimetype='text/event-stream')
