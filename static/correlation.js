@@ -29,10 +29,15 @@ $("#test").on('submit', function (e) {
         $('.progress-bar-label').text(event.data + '%');
         if (event.data == 100) {
             $('.progress-bar').addClass('bg-success');
+            $('.progress-bar').removeClass('progress-bar-animated');
+            $('.progress-bar').removeClass('progress-bar-striped ');
             source.close()
         } else {
             $('.progress-bar').removeClass('bg-success');
+            $('.progress-bar').addClass('progress-bar-animated');
+            $('.progress-bar').addClass('progress-bar-striped ');
         }
+        event.preventDefault();
     }
 
     e.preventDefault();

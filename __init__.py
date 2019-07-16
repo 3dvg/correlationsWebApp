@@ -81,9 +81,10 @@ def suggestions():
             statisticsActual.append(getStatsActual())
             statisticsOld.append(getStatsOld())
             statisticsFollowUp.append(getStatsFollowUp())
-
+            progress()
+    set_stop_run()
     occ = getOccurrences()
-
+    print(stop_run)
     return render_template('suggestions.html', nOccurrences=occ, graphs=corrData, instr=instrument, statsActual=statisticsActual, statsOld=statisticsOld, statsFollowUp=statisticsFollowUp)
 
 
@@ -95,6 +96,40 @@ def set_stop_run():
 
 
 @app.route('/progress', methods=['GET', 'POST'])
+def progress():
+    def generate():
+        print("-----------------", iterate, "/", lookback, step)
+
+        y = 100
+        if lookback == 0:
+            s = 0
+        else:
+            s = int(math.floor((step - 0)/(lookback-0)*100))
+        x = s
+        global stop_run
+        print("progress bar running... ")
+        if not stop_run:
+            print(x, y, s)
+            # time.sleep(3)
+            if x >= y or x+s >= y:
+                print("JODIDO")
+                x = 100
+            else:
+                if lookback == 0:
+                    x = 0
+                else:
+                    x = int(math.ceil((iterate - 0)/(lookback-0)*100)) + s
+            if x >= y:
+                print("te he pillao jodio")
+                x = 100
+
+            print('----', x, '----')
+            yield "data:" + str(x) + "\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
+
+
+'''@app.route('/progress', methods=['GET', 'POST'])
 def progress():
 
     def generate():
@@ -124,7 +159,7 @@ def progress():
                 yield "data:" + str(x) + "\n\n"
 
     return Response(generate(), mimetype='text/event-stream')
-
+'''
 
 '''
 ===============================================
