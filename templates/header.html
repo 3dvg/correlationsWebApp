@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Graphs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/custom.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="{{ url_for('homepage') }}">Title / Logo</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="{{ url_for('homepage') }}">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="#contact">Login</a>
+                        </li>
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Launch demo modal
+                        </button>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main>
+        {% block body %} {% endblock %}
+    </main>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark customfooter">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Title 2019</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='correlation.js') }}"></script>
+
+
+</body>
+
+</html>

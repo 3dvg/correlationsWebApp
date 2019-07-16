@@ -91,3 +91,13 @@ tr{
 td{
     padding: 0px 15px 0px 15px; 
 }
+.tleft{
+    text-align: left;
+}
+.tcenter{
+    text-align: center;
+}
+
+.tright{
+    text-align: right;
+}

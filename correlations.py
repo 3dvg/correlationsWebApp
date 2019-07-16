@@ -22,7 +22,7 @@ n_occ = 0
 def getCorrData(lookback, n_days, instrument, i, corr_filter, occ):
     global stats
     global n_occ
-    print("!", occ, n_occ)
+    #print("!", occ, n_occ)
     newGraph = None
     # print(i,"/",lookback)
     steptime = datetime.timedelta(days=i)
@@ -171,13 +171,25 @@ print(vs_data , vs_data_followup ) '''
                 endActual.year, endActual.month, endActual.day)
             stats['pctChange'] = str(round(pctchgActual, 2))
 
-            '''print("To predict: ", startActualdt, endActualdt,
+            stats['startOld'] = '{} - {} - {}'.format(
+                startOld.year, startOld.month, startOld.day)
+            stats['endOld'] = '{} - {} - {}'.format(
+                endOld.year, endOld.month, endOld.day)
+            stats['pctChangeOld'] = str(round(pctchgOld, 2))
+
+            stats['startFollowUp'] = '{} - {} - {}'.format(
+                startFollowUp.year, startFollowUp.month, startFollowUp.day)
+            stats['endFollowUp'] = '{} - {} - {}'.format(
+                endFollowUp.year, endFollowUp.month, endFollowUp.day)
+            stats['pctchgFollowUp'] = str(round(pctchgFollowUp, 2))
+
+            print("To predict: ", startActualdt, endActualdt,
                   "%Chg", round(pctchgActual, 2), "Period", n_days)
             print("Historical: ", startOlddt, endOlddt, "%Chg",
                   round(pctchgOld, 2), "Period", n_days)
             print("Follow Up: ", startFollowUpdt, endFollowUpdt,
                   "%Chg", round(pctchgFollowUp, 2), "Period", n_days)
-            print("Corr --> ", df_corr['Last']['Old'])'''
+            print("Corr --> ", df_corr['Last']['Old'])
 
             newGraph = build_complexgraph(df['Last'],
                                           vs_data['Last'], vs_data_followup['Last'], pctchgFollowUp, round(df_corr['Last']['Old'], 2))
@@ -221,13 +233,25 @@ print(vs_data , vs_data_followup ) '''
                 endActual.year, endActual.month, endActual.day)
             stats['pctChange'] = str(round(pctchgActual, 2))
 
-            '''print("To predict: ", startActualdt, endActualdt,
+            stats['startOld'] = '{} - {} - {}'.format(
+                startOld.year, startOld.month, startOld.day)
+            stats['endOld'] = '{} - {} - {}'.format(
+                endOld.year, endOld.month, endOld.day)
+            stats['pctChangeOld'] = str(round(pctchgOld, 2))
+
+            stats['startFollowUp'] = '{} - {} - {}'.format(
+                startFollowUp.year, startFollowUp.month, startFollowUp.day)
+            stats['endFollowUp'] = '{} - {} - {}'.format(
+                endFollowUp.year, endFollowUp.month, endFollowUp.day)
+            stats['pctchgFollowUp'] = str(round(pctchgFollowUp, 2))
+
+            print("To predict: ", startActualdt, endActualdt,
                   "%Chg", round(pctchgActual, 2), "Period", n_days)
             print("Historical: ", startOlddt, endOlddt, "%Chg",
                   round(pctchgOld, 2), "Period", n_days)
             print("Follow Up: ", startFollowUpdt, endFollowUpdt,
                   "%Chg", round(pctchgFollowUp, 2), "Period", n_days)
-            print("Corr --> ", df_corr['Last']['Old'])'''
+            print("Corr --> ", df_corr['Last']['Old'])
 
             newGraph = build_complexgraph(df['Last'],
                                           vs_data['Last'], vs_data_followup['Last'], pctchgFollowUp, round(df_corr['Last']['Old'], 2))
@@ -264,12 +288,23 @@ print(vs_data , vs_data_followup ) '''
             '''
                 STATS BUILDER
             '''
-
-            '''stats['startActual'] = '{} - {} - {}'.format(
+            stats['startActual'] = '{} - {} - {}'.format(
                 startActual.year, startActual.month, startActual.day)
             stats['endActual'] = '{} - {} - {}'.format(
                 endActual.year, endActual.month, endActual.day)
             stats['pctChange'] = str(round(pctchgActual, 2))
+
+            stats['startOld'] = '{} - {} - {}'.format(
+                startOld.year, startOld.month, startOld.day)
+            stats['endOld'] = '{} - {} - {}'.format(
+                endOld.year, endOld.month, endOld.day)
+            stats['pctChangeOld'] = str(round(pctchgOld, 2))
+
+            stats['startFollowUp'] = '{} - {} - {}'.format(
+                startFollowUp.year, startFollowUp.month, startFollowUp.day)
+            stats['endFollowUp'] = '{} - {} - {}'.format(
+                endFollowUp.year, endFollowUp.month, endFollowUp.day)
+            stats['pctchgFollowUp'] = str(round(pctchgFollowUp, 2))
 
             print("To predict: ", startActualdt, endActualdt,
                   "%Chg", round(pctchgActual, 2), "Period", n_days)
@@ -277,7 +312,7 @@ print(vs_data , vs_data_followup ) '''
                   round(pctchgOld, 2), "Period", n_days)
             print("Follow Up: ", startFollowUpdt, endFollowUpdt,
                   "%Chg", round(pctchgFollowUp, 2), "Period", n_days)
-            print("Corr --> ", df_corr['Last']['Old'])'''
+            print("Corr --> ", df_corr['Last']['Old'])
 
             newGraph = build_complexgraph(df['Last'],
                                           vs_data['Last'], vs_data_followup['Last'], pctchgFollowUp, round(df_corr['Last']['Old'], 2))
@@ -320,24 +355,49 @@ print(vs_data , vs_data_followup ) '''
             endActual.year, endActual.month, endActual.day)
         stats['pctChange'] = str(round(pctchgActual, 2))
 
-        '''print("To predict: ", startActualdt, endActualdt,
-                "%Chg", round(pctchgActual, 2), "Period", n_days)
+        stats['startOld'] = '{} - {} - {}'.format(
+            startOld.year, startOld.month, startOld.day)
+        stats['endOld'] = '{} - {} - {}'.format(
+            endOld.year, endOld.month, endOld.day)
+        stats['pctChangeOld'] = str(round(pctchgOld, 2))
+
+        stats['startFollowUp'] = '{} - {} - {}'.format(
+            startFollowUp.year, startFollowUp.month, startFollowUp.day)
+        stats['endFollowUp'] = '{} - {} - {}'.format(
+            endFollowUp.year, endFollowUp.month, endFollowUp.day)
+        stats['pctchgFollowUp'] = str(round(pctchgFollowUp, 2))
+
+        print("To predict: ", startActualdt, endActualdt,
+              "%Chg", round(pctchgActual, 2), "Period", n_days)
         print("Historical: ", startOlddt, endOlddt, "%Chg",
-                round(pctchgOld, 2), "Period", n_days)
+              round(pctchgOld, 2), "Period", n_days)
         print("Follow Up: ", startFollowUpdt, endFollowUpdt,
-                "%Chg", round(pctchgFollowUp, 2), "Period", n_days)
-        print("Corr --> ", df_corr['Last']['Old'])'''
+              "%Chg", round(pctchgFollowUp, 2), "Period", n_days)
+        print("Corr --> ", df_corr['Last']['Old'])
 
         newGraph = build_complexgraph(df['Last'],
                                       vs_data['Last'], vs_data_followup['Last'], pctchgFollowUp, round(df_corr['Last']['Old'], 2))
 
-    print(occ, n_occ)
-    return newGraph
+    return newGraph, stats
 
 
-def getLoops():
+def getStatsActual():
     if stats:
-        return stats
+        return stats['startActual'], stats['endActual'], stats['pctChange']
+    else:
+        return "Error"
+
+
+def getStatsOld():
+    if stats:
+        return stats['startOld'], stats['endOld'], stats['pctChangeOld']
+    else:
+        return "Error"
+
+
+def getStatsFollowUp():
+    if stats:
+        return stats['startFollowUp'], stats['endFollowUp'], stats['pctchgFollowUp']
     else:
         return "Error"
 
@@ -347,7 +407,7 @@ def getOccurrences():
     if n_occ >= 0:
         occurences = n_occ
         n_occ = 0
-        print(".-.-.-", occurences, n_occ)
+        #print(".-.-.-", occurences, n_occ)
         return occurences
 
     else:
@@ -368,4 +428,4 @@ lookback = 90'''
 instrument = 'CHRIS/CME_ES1'
 # loop loopback step
 # getCorrData(lookback, n_days, step, instrument)
-print(n_occ)
+# print(n_occ)

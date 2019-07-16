@@ -20,16 +20,28 @@
         </div>-->
         <table>
             <tr>
-                <td>Last N days</td>
-                <td>{{startDate}}</td>
-                <td>{{endDate}}</td>
-                <td>{{pctChange}}</td>
+                <th class="tleft">&nbsp;</th>
+                <th class="tcenter">Start Date</th>
+                <th class="tcenter">End Date</th>
+                <th class="tright">% Change</th>
             </tr>
             <tr>
-                <td>Occurence N days</td>
-                <td>{{startDate}}</td>
-                <td>{{endDate}}</td>
-                <td>{{pctChange}}</td>
+                <td class="tleft">Last N days</td>
+                <td class="tcenter">{{statsActual[loop.index0][0]}}</td>
+                <td class="tcenter">{{statsActual[loop.index0][1]}}</td>
+                <td class="tright">{{statsActual[loop.index0][2]}}</td>
+            </tr>
+            <tr>
+                <td class="tleft">Occurence N days</td>
+                <td class="tcenter">{{statsOld[loop.index0][0]}}</td>
+                <td class="tcenter">{{statsOld[loop.index0][1]}}</td>
+                <td class="tright">{{statsOld[loop.index0][2]}}</td>
+            </tr>
+            <tr>
+                <td class="tleft">Followup N days</td>
+                <td class="tcenter">{{statsFollowUp[loop.index0][0]}}</td>
+                <td class="tcenter">{{statsFollowUp[loop.index0][1]}}</td>
+                <td class="tright">{{statsFollowUp[loop.index0][2]}}</td>
             </tr>
         </table>
         <div class="3rdRow">
