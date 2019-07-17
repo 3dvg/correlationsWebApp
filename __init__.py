@@ -29,13 +29,32 @@ stop_run = False
 def suggestions():
     global stop_run
     stop_run = False
-    ndays = int(request.args.get('ndays'))
+    n_ndays = int(request.args.get('ndays'))
+    ndays = 0
+    if n_ndays == 1:
+        ndays = 30
+    elif n_ndays == 2:
+        ndays = 90
+    elif n_ndays == 3:
+        ndays = 180
+    elif n_ndays == 4:
+        ndays = 365
 
     global lookback
-    lookback = int(request.args.get('lookback'))
+    n_lookback = int(request.args.get('lookback'))
+    if n_lookback == 1:
+        lookback = 730
+    elif n_lookback == 2:
+        lookback = 1095
+    elif n_lookback == 3:
+        lookback = 1825
+    elif n_lookback == 4:
+        lookback = 2920
+    elif n_lookback == 5:
+        lookback = 4745
 
     global step
-    step = int(request.args.get('ndays'))
+    step = ndays
 
     n_instrument = int(request.args.get('instrument'))
     instrument = ''
@@ -71,11 +90,11 @@ def suggestions():
             global iterate
             iterate = i
 
-            j, k = getCorrData(
+            j = getCorrData(
                 lookback, ndays, instrument, i, corr_filter, occ)
 
             corrData.append(j)
-            customi = int(i/ndays)
+            # customi = int(i/ndays)
 
             # statistics.append(k)
             statisticsActual.append(getStatsActual())
@@ -98,18 +117,20 @@ def set_stop_run():
 @app.route('/progress', methods=['GET', 'POST'])
 def progress():
     def generate():
-        print("-----------------", iterate, "/", lookback, step)
-
-        y = 100
-        if lookback == 0:
-            s = 0
-        else:
-            s = int(math.floor((step - 0)/(lookback-0)*100))
-        x = s
         global stop_run
-        print("progress bar running... ")
+        print("stopped ==>", stop_run)
+
         if not stop_run:
-            print(x, y, s)
+            # print("-----------------", iterate, "/", lookback, step)
+            print("progress bar running... ")
+            y = 100
+            if lookback == 0:
+                s = 0
+            else:
+                s = int(math.floor((step - 0)/(lookback-0)*100))
+            x = s
+
+            # print(x, y, s)
             # time.sleep(3)
             if x >= y or x+s >= y:
                 print("JODIDO")
@@ -123,43 +144,19 @@ def progress():
                 print("te he pillao jodio")
                 x = 100
 
-            print('----', x, '----')
+            print('----', x, '----', stop_run)
             yield "data:" + str(x) + "\n\n"
 
-    return Response(generate(), mimetype='text/event-stream')
-
-
-'''@app.route('/progress', methods=['GET', 'POST'])
-def progress():
-
-    def generate():
-        print("--", iterate, lookback, step)
-        x = 0
-        y = 100
-        if lookback == 0:
-            s = 0
         else:
-            s = int(math.floor((step - 0)/(lookback-0)*100))
-        x = s
-        while x < y:
-            global stop_run
-            print("progress bar running... ")
-            if not stop_run:
-                #print(x, y, s)
-                time.sleep(3)
-                if x >= y or x+s >= y:
-                    # print("JODIDO")
-                    x = 100
-                else:
-                    if lookback == 0 and iterate == 0:
-                        x = 0
-                    else:
-                        x = int(math.ceil((iterate - 0)/(lookback-0)*100)) + s
-
-                yield "data:" + str(x) + "\n\n"
+            return "Progress bar stopped"
 
     return Response(generate(), mimetype='text/event-stream')
-'''
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
+
 
 '''
 ===============================================

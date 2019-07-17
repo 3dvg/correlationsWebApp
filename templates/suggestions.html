@@ -1,6 +1,7 @@
 <div class="nOc">
     <span>Number of occurences: {{nOccurrences}}</span>
 </div>
+{% if nOccurrences > 0 %}
 <div class="grid">
     {% for graph in graphs %}
     {% if graph %}
@@ -55,3 +56,4 @@
     <!--<hr>-->
     {% endfor %}
 </div>
+{% endif %}

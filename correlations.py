@@ -378,7 +378,7 @@ print(vs_data , vs_data_followup ) '''
         newGraph = build_complexgraph(df['Last'],
                                       vs_data['Last'], vs_data_followup['Last'], pctchgFollowUp, round(df_corr['Last']['Old'], 2))
 
-    return newGraph, stats
+    return newGraph
 
 
 def getStatsActual():
