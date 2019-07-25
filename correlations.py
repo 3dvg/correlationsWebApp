@@ -117,7 +117,7 @@ def getCorrData(lookback, n_days, instrument, i, corr_filter, occ):
     vs_data = vs_data.sort_index()  # sorting by index
 
     '''print(len(df), len(vs_data), len(vs_data_followup))
-print(vs_data , vs_data_followup ) '''
+    print(vs_data , vs_data_followup ) '''
 
     vs_data['Next'] = vs_data_followup['Last']
     # prepare data
