@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, Response
-from correlations import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
+#from correlations import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
+from correlations_db import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
 import time
 import math
-from database import create_db, deletedb, create_dummydb, checkTables
+from database import create_db, deletedb, create_dummydb, checkTables, getDB
 app = Flask(__name__)
 
 
@@ -34,6 +35,16 @@ stop_run = False
 
 @app.route('/suggestions', methods=['GET', 'POST'])
 def suggestions():
+    create_dummydb()
+
+    # deletedb()
+
+    checkTables()
+
+    # create_db()
+
+    checkTables()
+
     try:
         global stop_run
         stop_run = False
@@ -80,7 +91,7 @@ def suggestions():
 
         corr_filter = int(request.args.get('correlation'))
 
-        print(n_instrument, instrument, lookback, corr_filter)
+        print(n_instrument, getDB(), lookback, corr_filter)
         '''suggestions_list = []
 
         for j in range(0, ndays):
@@ -99,19 +110,19 @@ def suggestions():
                 iterate = i
 
                 j = getCorrData(
-                    lookback, ndays, instrument, i, corr_filter, occ)
+                    lookback, ndays, getDB(), i, corr_filter, occ)
 
                 corrData.append(j)
                 # customi = int(i/ndays)
-
                 # statistics.append(k)
                 statisticsActual.append(getStatsActual())
                 statisticsOld.append(getStatsOld())
                 statisticsFollowUp.append(getStatsFollowUp())
                 progress()
+                # time.sleep(0.1)
         set_stop_run()
         occ = getOccurrences()
-        print(stop_run)
+        # print(stop_run)
         return render_template('suggestions.html', nOccurrences=occ, graphs=corrData, instr=instrument, statsActual=statisticsActual, statsOld=statisticsOld, statsFollowUp=statisticsFollowUp)
     except:
         return render_template('500.html')
@@ -132,7 +143,7 @@ def progress():
     try:
         def generate():
             global stop_run
-            print("stopped ==>", stop_run)
+            #print("stopped ==>", stop_run)
 
             if not stop_run:
                 # print("-----------------", iterate, "/", lookback, step)
@@ -147,7 +158,7 @@ def progress():
                 # print(x, y, s)
                 # time.sleep(3)
                 if x >= y or x+s >= y:
-                    print("JODIDO")
+                    # print("JODIDO")
                     x = 100
                 else:
                     if lookback == 0:
@@ -155,10 +166,10 @@ def progress():
                     else:
                         x = int(math.ceil((iterate - 0)/(lookback-0)*100)) + s
                 if x >= y:
-                    print("te he pillao jodio")
+                    #print("te he pillao jodio")
                     x = 100
 
-                print('----', x, '----', stop_run)
+                #print('----', x, '----', stop_run)
                 yield "data:" + str(x) + "\n\n"
 
             else:

@@ -10,7 +10,7 @@ def create_dummydb():
     global ydayTable_ES
     db = sqlite3.connect('Data.db')
     cursor = db.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS"+ydayTable_ES +
+    cursor.execute("CREATE TABLE IF NOT EXISTS "+ydayTable_ES +
                    "(Idx INTEGER PRIMARY KEY, Last FLOAT, Date DATETIME)")
 
     db.commit()
@@ -23,7 +23,7 @@ def deletedb():
 
     db = sqlite3.connect('Data.db')
     cursor = db.cursor()
-    cursor.execute("DROP TABLE "+table_ES)
+    cursor.execute("DROP TABLE IF EXISTS "+table_ES)
     db.commit()
     db.close()
 
@@ -116,6 +116,7 @@ def checkData():
 def getDB():
     table_ES = "ES_"+datetime.datetime.today().strftime("%m%d%Y")
     return table_ES
+
 
 # create_dummydb()
 
