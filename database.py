@@ -4,10 +4,12 @@ import datetime
 import pandas as pd
 
 ydayTable_ES = 'ES0'
+todayES = "dummy"
 
 
 def create_dummydb():
     global ydayTable_ES
+    ydayTable_ES = 'ES0'
     db = sqlite3.connect('Data.db')
     cursor = db.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS "+ydayTable_ES +
@@ -28,8 +30,7 @@ def deletedb():
     db.close()
 
 
-def create_db():
-    db = sqlite3.connect('Data.db')
+def create_df():
 
     max_days = 7300
 
@@ -56,38 +57,48 @@ def create_db():
     # set Idx as index of the dataframe
     df_ES.set_index('Idx', drop=True, inplace=True)
 
-    table_ES = "ES_"+datetime.datetime.today().strftime("%m%d%Y")
-    print(table_ES)
+    print("new data downloaded...")
+    return df_ES
+
+
+def create_db():
+    db = sqlite3.connect('Data.db')
 
     cursor = db.cursor()
 
-    global ydayTable_ES
-    print(ydayTable_ES, table_ES)
-
-    if table_ES != ydayTable_ES:
-        cursor.execute("CREATE TABLE IF NOT EXISTS "+table_ES +
-                       "(Idx INTEGER PRIMARY KEY, Last FLOAT, Date DATETIME)")
-
-        db.commit()
-
-        cursor.execute("DROP TABLE "+ydayTable_ES)
-
-        for index, row in df_ES.iterrows():
-            cursor.execute("INSERT INTO "+table_ES+"(Idx, Last, Date)VALUES(:Idx, :Last, :Date)",
-                           {'Idx': index, 'Last': row['Last'], 'Date': row['Date'].strftime('%Y-%m-%d %H-%M-%S')})
-        # db.commit()
-
-        ydayTable_ES = table_ES
-        print("-- ", ydayTable_ES, table_ES)
-
-        if table_ES != ydayTable_ES:
-            print("it doesnt exists")
-        else:
-            print("exists!!!")
-
+    global todayES
+    print(todayES)
+    if datetime.datetime.today().strftime("%m%d%Y-%M") == todayES:
+        print("runnin app...")
     else:
-        print("it already exists... running code")
+        print("new day")
+        todayES = datetime.datetime.today().strftime("%m%d%Y-%M")
+        df_ES = create_df()
+        try:
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS ES (Idx INTEGER PRIMARY KEY, Last FLOAT, Date DATETIME)")
+            db.commit()
+        except:
+            print("ERR creating ES")
 
+        try:
+            cursor.execute("DELETE FROM ES")
+            db.commit()
+        except:
+            print("ERR truncating ES")
+        try:
+            for index, row in df_ES.iterrows():
+                cursor.execute("INSERT INTO ES(Idx, Last, Date)VALUES(:Idx, :Last, :Date)",
+                               {'Idx': index, 'Last': row['Last'], 'Date': row['Date'].strftime('%Y-%m-%d %H-%M-%S')})
+            db.commit()
+        except:
+            print("ERR inserting into ES")
+
+        cursor.execute("SELECT Idx, Last, Date FROM ES where Idx < 3")
+        for row in cursor:
+            print(row[0], row[1])
+
+    print("--", todayES)
     db.commit()
     db.close()
 
@@ -114,7 +125,8 @@ def checkData():
 
 
 def getDB():
-    table_ES = "ES_"+datetime.datetime.today().strftime("%m%d%Y")
+    #table_ES = "ES_"+datetime.datetime.today().strftime("%m%d%Y")
+    table_ES = "ES"
     return table_ES
 
 

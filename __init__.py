@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, Response
 from correlations_db import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
 import time
 import math
-from database import create_db, deletedb, create_dummydb, checkTables, getDB
+from database import create_db, create_df, deletedb, create_dummydb, checkTables, getDB
 app = Flask(__name__)
 
 
@@ -35,13 +35,13 @@ stop_run = False
 
 @app.route('/suggestions', methods=['GET', 'POST'])
 def suggestions():
-    create_dummydb()
+    # create_dummydb()
 
     # deletedb()
 
     checkTables()
 
-    # create_db()
+    create_db()
 
     checkTables()
 
@@ -119,7 +119,7 @@ def suggestions():
                 statisticsOld.append(getStatsOld())
                 statisticsFollowUp.append(getStatsFollowUp())
                 progress()
-                # time.sleep(0.1)
+                time.sleep(1)
         set_stop_run()
         occ = getOccurrences()
         # print(stop_run)
@@ -156,7 +156,7 @@ def progress():
                 x = s
 
                 # print(x, y, s)
-                # time.sleep(3)
+                time.sleep(1)
                 if x >= y or x+s >= y:
                     # print("JODIDO")
                     x = 100
