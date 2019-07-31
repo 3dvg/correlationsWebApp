@@ -33,8 +33,7 @@ step = 0
 stop_run = False
 
 
-@app.route('/suggestions', methods=['GET', 'POST'])
-def suggestions():
+def suggestionsAux():
     # create_dummydb()
 
     # deletedb()
@@ -50,6 +49,9 @@ def suggestions():
         stop_run = False
         n_ndays = int(request.args.get('ndays'))
         ndays = 0
+
+        paginationAux = {}
+
         if n_ndays == 1:
             ndays = 30
         elif n_ndays == 2:
@@ -108,24 +110,79 @@ def suggestions():
             if not stop_run:
                 global iterate
                 iterate = i
-
                 j = getCorrData(
                     lookback, ndays, getDB(), i, corr_filter, occ)
-
-                corrData.append(j)
-                # customi = int(i/ndays)
-                # statistics.append(k)
-                statisticsActual.append(getStatsActual())
-                statisticsOld.append(getStatsOld())
-                statisticsFollowUp.append(getStatsFollowUp())
+                if j == None:
+                    print("none")
+                    continue
+                else:
+                    corrData.append(j)
+                    # customi = int(i/ndays)
+                    # statistics.append(k)
+                    statisticsActual.append(getStatsActual())
+                    statisticsOld.append(getStatsOld())
+                    statisticsFollowUp.append(getStatsFollowUp())
                 progress()
-                time.sleep(1)
+                time.sleep(0.01)
         set_stop_run()
         occ = getOccurrences()
-        # print(stop_run)
-        return render_template('suggestions.html', nOccurrences=occ, graphs=corrData, instr=instrument, statsActual=statisticsActual, statsOld=statisticsOld, statsFollowUp=statisticsFollowUp)
+
+        # paginationAux["nOccurrences"] = occ
+        paginationAux["graphs"] = corrData
+        # paginationAux["instr"] = instrument
+        paginationAux["statsActual"] = statisticsActual
+        paginationAux["statsOld"] = statisticsOld
+        paginationAux["statsFollowUp"] = statisticsFollowUp
+
+        return paginationAux, occ
     except:
-        return render_template('500.html')
+        return "ERROR"
+
+
+@app.route('/suggestions', methods=['GET', 'POST'])
+def suggestions():
+    '''try:'''
+    data, occ = suggestionsAux()
+
+    charts = data["graphs"]
+    actual = data["statsActual"]
+    correlated = data["statsOld"]
+    followup = data["statsFollowUp"]
+    nItems = 6
+
+    charts = [x for x in charts if x != None]
+    sCharts = list(dict.fromkeys(charts))
+    sCharts = sCharts[:nItems]
+    '''for j in sCharts:
+        print("___img", j[0:10])'''
+    actual = [x for x in actual if x != (0, 0, 0)]
+    sActual = actual[:nItems]
+    '''for j in sActual:
+        print(",,", j)'''
+    correlated = [x for x in correlated if x != (0, 0, 0)]
+    sCorrelated = list(dict.fromkeys(correlated))
+    sCorrelated = sCorrelated[:nItems]
+    '''for k in sCorrelated:
+        print("--", k)'''
+    followup = [x for x in followup if x != (0, 0, 0)]
+    sFollowup = list(dict.fromkeys(followup))
+    sFollowup = sFollowup[:nItems]
+    '''for k in sFollowup:
+        print(">>", k)'''
+
+    sdata = {}
+    showing = 0
+
+    sdata["graphs"] = sCharts
+    sdata["statsActual"] = sActual
+    sdata["statsOld"] = sCorrelated
+    sdata["statsFollowUp"] = sFollowup
+    showing = len(sdata["graphs"])
+    '''print(len(sdata["graphs"]), len(sdata["statsActual"]),
+          len(sdata["statsOld"]), len(sdata["statsFollowUp"]))'''
+    return render_template('suggestions.html', data=sdata, occurrences=occ, showing=showing)
+    '''except:
+        return render_template('500.html')'''
 
 
 @app.route("/stop", methods=['GET'])
@@ -156,7 +213,7 @@ def progress():
                 x = s
 
                 # print(x, y, s)
-                time.sleep(1)
+                # time.sleep(1)
                 if x >= y or x+s >= y:
                     # print("JODIDO")
                     x = 100

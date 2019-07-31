@@ -55,20 +55,32 @@ n_occ = 0
 
 def getOccurrences():
     global n_occ
-    if n_occ >= 0:
+    if n_occ > 0:
         occurences = n_occ
         n_occ = 0
         #print(".-.-.-", occurences, n_occ)
         return occurences
 
     else:
-        return "Error"
+        return 0
 
 
 def getCorrData(nlookback, ndays, database, i, corr_filter, occ):
-    # print("starting...")
+    # print("scanning...")
+    newGraph = None
+    n_corr_filter = 0.0
+
+    if corr_filter == 1:
+        n_corr_filter = 0.0
+    elif corr_filter == 2:
+        n_corr_filter = 0.25
+    elif corr_filter == 3:
+        n_corr_filter = 0.5
+    else:
+        n_corr_filter = -100.0
+
     db = sqlite3.connect('Data.db')
-    step = ndays
+    #step = ndays
 
     endActual = 0
     startActual = ndays
@@ -198,75 +210,82 @@ def getCorrData(nlookback, ndays, database, i, corr_filter, occ):
     # set Idx as index of the dataframe
     chartData.set_index('Idx', drop=True, inplace=True)
 
-    RactualData = actualData.copy()
-    RactualData['Correlated'] = RauxCorrelatedData['Last']
-    RactualData['Correlated-Follow Up'] = RauxcorrelatedDataFollowUp['Last']
-    RactualData = RactualData.iloc[::-1]
-    RactualData['Idx2'] = actualData.index
-    # set Idx as index of the dataframe
-    RactualData.set_index('Idx2', drop=True, inplace=True)
+    if df_corr['Last']['Correlated'] > n_corr_filter:
 
-    #print(chartData.head(), actualData.head(), RactualData.head())
-    print("=======================", i, "/",
-          nlookback, "=======================")
+        global n_occ
+        n_occ = n_occ+1
+        RactualData = actualData.copy()
+        RactualData['Correlated'] = RauxCorrelatedData['Last']
+        RactualData['Correlated-Follow Up'] = RauxcorrelatedDataFollowUp['Last']
+        RactualData = RactualData.iloc[::-1]
+        RactualData['Idx2'] = actualData.index
+        # set Idx as index of the dataframe
+        RactualData.set_index('Idx2', drop=True, inplace=True)
 
-    pctchgActual = (
-        (chartData['Last'].iloc[-1] - chartData['Last'].iloc[0])/chartData['Last'].iloc[0])*100.0
-    pctchgOld = ((RauxCorrelatedData['Last'].iloc[-1] -
-                  RauxCorrelatedData['Last'].iloc[0])/RauxCorrelatedData['Last'].iloc[0])*100.0
-    pctchgFollowUp = ((RauxcorrelatedDataFollowUp['Last'].iloc[-1] -
-                       RauxcorrelatedDataFollowUp['Last'].iloc[0])/RauxcorrelatedDataFollowUp['Last'].iloc[0])*100.0
+        #print(chartData.head(), actualData.head(), RactualData.head())
+        print("=======================", i, "/",
+              nlookback, "=======================")
 
-    dataStr = '%Y-%m-%d'
+        pctchgActual = (
+            (chartData['Last'].iloc[-1] - chartData['Last'].iloc[0])/chartData['Last'].iloc[0])*100.0
+        pctchgOld = ((RauxCorrelatedData['Last'].iloc[-1] -
+                      RauxCorrelatedData['Last'].iloc[0])/RauxCorrelatedData['Last'].iloc[0])*100.0
+        pctchgFollowUp = ((RauxcorrelatedDataFollowUp['Last'].iloc[-1] -
+                           RauxcorrelatedDataFollowUp['Last'].iloc[0])/RauxcorrelatedDataFollowUp['Last'].iloc[0])*100.0
 
-    startActualdt = RactualData['Date'].iloc[0]
-    endActualdt = RactualData['Date'].iloc[-1]
+        dataStr = '%Y-%m-%d'
 
-    auxnewStartActualdt = startActualdt[0:10]
-    newStartActualdt = datetime.datetime.strptime(
-        auxnewStartActualdt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        startActualdt = RactualData['Date'].iloc[0]
+        endActualdt = RactualData['Date'].iloc[-1]
 
-    auxnewEndActualdt = endActualdt[0:10]
-    newEndActualdt = datetime.datetime.strptime(
-        auxnewEndActualdt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        auxnewStartActualdt = startActualdt[0:10]
+        newStartActualdt = datetime.datetime.strptime(
+            auxnewStartActualdt, dataStr).strftime("%b %d %Y")
+        #print(datetime_object.strftime("%b %d %Y"))
 
-    startCorrelateddt = RauxCorrelatedData['Date'].iloc[0]
-    endCorrelateddt = RauxCorrelatedData['Date'].iloc[-1]
+        auxnewEndActualdt = endActualdt[0:10]
+        newEndActualdt = datetime.datetime.strptime(
+            auxnewEndActualdt, dataStr).strftime("%b %d %Y")
+        #print(datetime_object.strftime("%b %d %Y"))
 
-    auxnewstartCorrelateddt = startCorrelateddt[0:10]
-    newstartCorrelateddt = datetime.datetime.strptime(
-        auxnewstartCorrelateddt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        startCorrelateddt = RauxCorrelatedData['Date'].iloc[0]
+        endCorrelateddt = RauxCorrelatedData['Date'].iloc[-1]
 
-    auxnewSendCorrelateddt = endCorrelateddt[0:10]
-    newSendCorrelateddt = datetime.datetime.strptime(
-        auxnewSendCorrelateddt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        auxnewstartCorrelateddt = startCorrelateddt[0:10]
+        newstartCorrelateddt = datetime.datetime.strptime(
+            auxnewstartCorrelateddt, dataStr).strftime("%b %d %Y")
+        #print(datetime_object.strftime("%b %d %Y"))
 
-    startFollowUpdt = RauxcorrelatedDataFollowUp['Date'].iloc[0]
-    endFollowUpdt = RauxcorrelatedDataFollowUp['Date'].iloc[-1]
+        auxnewSendCorrelateddt = endCorrelateddt[0:10]
+        newSendCorrelateddt = datetime.datetime.strptime(
+            auxnewSendCorrelateddt, dataStr).strftime("%b %d %Y")
+        #print(datetime_object.strftime("%b %d %Y"))
 
-    auxnewstartFollowUpdt = startFollowUpdt[0:10]
-    newstartFollowUpdt = datetime.datetime.strptime(
-        auxnewstartFollowUpdt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        startFollowUpdt = RauxcorrelatedDataFollowUp['Date'].iloc[0]
+        endFollowUpdt = RauxcorrelatedDataFollowUp['Date'].iloc[-1]
 
-    auxnewendFollowUpdt = endFollowUpdt[0:10]
-    newendFollowUpdt = datetime.datetime.strptime(
-        auxnewendFollowUpdt, dataStr).strftime("%b %d %Y")
-    #print(datetime_object.strftime("%b %d %Y"))
+        auxnewstartFollowUpdt = startFollowUpdt[0:10]
+        newstartFollowUpdt = datetime.datetime.strptime(
+            auxnewstartFollowUpdt, dataStr).strftime("%b %d %Y")
+        #print(datetime_object.strftime("%b %d %Y"))
 
-    '''print("To predict: ", newStartActualdt,
-          newEndActualdt, "%Chg", round(pctchgActual, 2))
-    print("Correlated: ", newstartCorrelateddt,
-          newSendCorrelateddt, "%Chg", round(pctchgOld, 2))
-    print("Follow Up: ", newstartFollowUpdt,
-          newendFollowUpdt, "%Chg", round(pctchgFollowUp, 2))
-    print("Corr --> ", df_corr['Last']['Correlated'])'''
+        auxnewendFollowUpdt = endFollowUpdt[0:10]
+        newendFollowUpdt = datetime.datetime.strptime(
+            auxnewendFollowUpdt, dataStr).strftime("%b %d %Y")
 
-    newGraph = build_complexgraph(chartData['Last'],
-                                  RauxCorrelatedData['Last'], RauxcorrelatedDataFollowUp['Last'], pctchgFollowUp, round(df_corr['Last']['Correlated'], 2))
+        stats['startActual'] = newStartActualdt
+        stats['endActual'] = newEndActualdt
+        stats['pctChange'] = round(pctchgActual, 2)
+
+        stats['startOld'] = newstartCorrelateddt
+        stats['endOld'] = newSendCorrelateddt
+        stats['pctChangeOld'] = round(pctchgOld, 2)
+
+        stats['startFollowUp'] = newstartFollowUpdt
+        stats['endFollowUp'] = newendFollowUpdt
+        stats['pctchgFollowUp'] = round(pctchgFollowUp, 2)
+
+        newGraph = build_complexgraph(chartData['Last'],
+                                      RauxCorrelatedData['Last'], RauxcorrelatedDataFollowUp['Last'], pctchgFollowUp, round(df_corr['Last']['Correlated'], 2))
 
     return newGraph

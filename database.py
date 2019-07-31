@@ -68,11 +68,11 @@ def create_db():
 
     global todayES
     print(todayES)
-    if datetime.datetime.today().strftime("%m%d%Y-%M") == todayES:
+    if datetime.datetime.today().strftime("%m%d%Y") == todayES:
         print("runnin app...")
     else:
         print("new day")
-        todayES = datetime.datetime.today().strftime("%m%d%Y-%M")
+        todayES = datetime.datetime.today().strftime("%m%d%Y")
         df_ES = create_df()
         try:
             cursor.execute(

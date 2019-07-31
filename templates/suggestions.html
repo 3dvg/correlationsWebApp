@@ -1,24 +1,12 @@
 <div class="nOc">
-    <span>Number of occurences: {{nOccurrences}}</span>
+    <span>Number of occurences: {{occurrences}}, showing {{showing}}</span>
 </div>
-{% if nOccurrences >= 0 %}
+{% if occurrences > 0 %}
 <div class="grid">
-    {% for graph in graphs %}
+    {% for graph in data["graphs"] %}
     {% if graph %}
-    <div id="cell" class="cell">
 
-        <!--<div class="1stRow">
-            <span class="1stRow_elem">Last N days</span>
-            <span class="1stRow_elem">{{startDate}}</span>
-            <span class="1stRow_elem">{{endDate}}</span>
-            <span class="1stRow_elem">{{pctChange}}</span>
-        </div>
-        <div class="2ndRow">
-            <span class="2ndRow_elem">Occurence N days</span>
-            <span class="2ndRow_elem">{{startDate}}</span>
-            <span class="2ndRow_elem">{{endDate}}</span>
-            <span class="2ndRow_elem">{{pctChange}}</span>
-        </div>-->
+    <div id="cell" class="cell">
         <table>
             <tr>
                 <th class="tleft">&nbsp;</th>
@@ -27,33 +15,33 @@
                 <th class="tright">% Change</th>
             </tr>
             <tr>
-                <td class="tleft">Last N days</td>
-                <td class="tcenter">{{statsActual[loop.index0][0]}}</td>
-                <td class="tcenter">{{statsActual[loop.index0][1]}}</td>
-                <td class="tright">{{statsActual[loop.index0][2]}}</td>
+                <td class="tleft">Current</td>
+                <td class="tcenter">{{data["statsActual"][loop.index0][0]}}</td>
+                <td class="tcenter">{{data["statsActual"][loop.index0][1]}}</td>
+                <td class="tright">{{data["statsActual"][loop.index0][2]}}</td>
             </tr>
             <tr>
-                <td class="tleft">Occurence N days</td>
-                <td class="tcenter">{{statsOld[loop.index0][0]}}</td>
-                <td class="tcenter">{{statsOld[loop.index0][1]}}</td>
-                <td class="tright">{{statsOld[loop.index0][2]}}</td>
+                <td class="tleft">Correlated</td>
+                <td class="tcenter">{{data["statsOld"][loop.index0][0]}}</td>
+                <td class="tcenter">{{data["statsOld"][loop.index0][1]}}</td>
+                <td class="tright">{{data["statsOld"][loop.index0][2]}}</td>
             </tr>
             <tr>
-                <td class="tleft">Followup N days</td>
-                <td class="tcenter">{{statsFollowUp[loop.index0][0]}}</td>
-                <td class="tcenter">{{statsFollowUp[loop.index0][1]}}</td>
-                <td class="tright">{{statsFollowUp[loop.index0][2]}}</td>
+                <td class="tleft">Correlated follow-up</td>
+                <td class="tcenter">{{data["statsFollowUp"][loop.index0][0]}}</td>
+                <td class="tcenter">{{data["statsFollowUp"][loop.index0][1]}}</td>
+                <td class="tright">{{data["statsFollowUp"][loop.index0][2]}}</td>
             </tr>
         </table>
         <div class="3rdRow">
 
-            <img src="{{ graph }}">
+            <img class="chart" src="{{ graph }}">
 
         </div>
 
     </div>
     {% endif %}
-    <!--<hr>-->
     {% endfor %}
 </div>
+
 {% endif %}
