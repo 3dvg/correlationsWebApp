@@ -4,6 +4,17 @@ body{
     flex-direction: column;
     background-color: #eeeeee
 }
+.navbar{
+    padding: 0.5rem 0 0.5rem 0;
+}
+nav>.container{
+    max-width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 0;
+
+}
+
 main{
     flex: 1;
     margin-top: 80px;
