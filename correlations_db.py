@@ -19,6 +19,7 @@ stats = {}
 stats['startActual'] = 0
 stats['endActual'] = 0
 stats['pctChange'] = 0
+stats['correlation'] = 0
 
 stats['startOld'] = 0
 stats['endOld'] = 0
@@ -31,7 +32,7 @@ stats['pctchgFollowUp'] = 0
 
 def getStatsActual():
     if stats:
-        return stats['startActual'], stats['endActual'], stats['pctChange']
+        return stats['startActual'], stats['endActual'], stats['pctChange'], stats['correlation']
     else:
         return "Error"
 
@@ -71,7 +72,7 @@ def getCorrData(nlookback, ndays, database, i, corr_filter, occ):
     n_corr_filter = 0.0
 
     if corr_filter == 1:
-        n_corr_filter = 0.0
+        n_corr_filter = 0
     elif corr_filter == 2:
         n_corr_filter = 0.25
     elif corr_filter == 3:
@@ -276,6 +277,7 @@ def getCorrData(nlookback, ndays, database, i, corr_filter, occ):
         stats['startActual'] = newStartActualdt
         stats['endActual'] = newEndActualdt
         stats['pctChange'] = round(pctchgActual, 2)
+        stats['correlation'] = round(df_corr['Last']['Correlated'], 2)
 
         stats['startOld'] = newstartCorrelateddt
         stats['endOld'] = newSendCorrelateddt

@@ -1,8 +1,9 @@
 <div class="nOc">
-    <span>Number of occurences: {{occurrences}}, showing {{showing}}</span>
+    <span>Found {{showing}} occurences </span>
 </div>
 {% if occurrences > 0 %}
 <div class="grid">
+
     {% for graph in data["graphs"] %}
     {% if graph %}
 
@@ -34,12 +35,11 @@
             </tr>
         </table>
         <div class="3rdRow">
-
             <img class="chart" src="{{ graph }}">
-
         </div>
 
     </div>
+
     {% endif %}
     {% endfor %}
 </div>

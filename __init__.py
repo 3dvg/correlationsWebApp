@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, Response
-#from correlations import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
+# from correlations import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
 from correlations_db import getCorrData, getOccurrences, getStatsActual, getStatsFollowUp, getStatsOld
 import time
 import math
@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     try:
-        return render_template("index.html")
+        return render_template("app.html")
     except:
         return render_template('500.html')
 
@@ -106,6 +106,15 @@ def suggestionsAux():
             suggestions_list.append(j)'''
 
         # graph_list = getCorrData(lookback, ndays, ndays, 'CHRIS/CME_ES1')
+        n_accuracy = int(request.args.get('accuracy'))
+        accuracy = 30
+
+        if n_accuracy == 1:
+            accuracy = 5
+        elif n_accuracy == 2:
+            accuracy = 30
+        elif n_accuracy == 3:
+            accuracy = 90
 
         corrData = []
         statisticsActual = []
@@ -113,7 +122,7 @@ def suggestionsAux():
         statisticsFollowUp = []
         occ = 0
         global loading_data
-        for i in range(0, lookback, ndays):
+        for i in range(0, lookback, accuracy):
             if not stop_run:
                 global iterate
                 iterate = i
@@ -195,6 +204,19 @@ def suggestions():
             len(sdata["statsOld"]), len(sdata["statsFollowUp"]))'''
         global loading_data
         loading_data = 0
+
+        '''finalStats_FUdata = []
+
+        maxfu = max([x[2] for x in sdata["statsFollowUp"]])
+        minfu = min([x[2] for x in sdata["statsFollowUp"]])
+        avgfu = round(sum([x[2] for x in sdata["statsFollowUp"]]) /
+                      len([x[2] for x in sdata["statsFollowUp"]]), 2)
+        corr = [x[3] for x in sdata["statsActual"]]
+        maxcorr = max(corr)
+        maxcorridx = corr.index(maxcorr)
+        sortedcorr = sorted(corr, reverse=True)[:6]
+        print(maxcorr, maxcorridx, sortedcorr)
+        finalStats_FUdata = [maxfu, minfu, avgfu]'''
         return render_template('suggestions.html', data=sdata, occurrences=occ, showing=showing)
     except:
         return render_template('500.html')
@@ -221,7 +243,7 @@ def progress():
             global stop_run
 
             if not stop_run:
-                #print("progress bar running... ")
+                # print("progress bar running... ")
                 y = 100
                 global lookback
                 global step

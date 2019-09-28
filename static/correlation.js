@@ -5,6 +5,7 @@ $("#test").on('submit', function (e) {
     var _lookback = $(lookback).val();
     var _instrument = $(instrument).val()
     var _correlation = $(correlation).val()
+    var _accuracy = $(accuracy).val()
 
     source = new EventSource("/progress");
     apprun = true;
@@ -18,7 +19,8 @@ $("#test").on('submit', function (e) {
             ndays: _ndays,
             lookback: _lookback,
             instrument: _instrument,
-            correlation: _correlation
+            correlation: _correlation,
+            accuracy: _accuracy
         },
         success: function (response) {
             $("#place_for_graphs").html(response);

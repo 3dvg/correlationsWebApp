@@ -116,6 +116,9 @@ td{
 .chart{
     width: 100%;
 }
+.copyright{
+    font-size: 0.8em;
+}
 /* .pagination-page-info {
     padding: .6em;
     padding-left: 0;

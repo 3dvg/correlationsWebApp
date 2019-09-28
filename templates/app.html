@@ -7,15 +7,15 @@
         <div class="form-group">
             <label for="instrument">Instrument:</label>
             <select name="instrument" id="instrument" class="form-control">
-                <option value="1">ES</option>
-                <option value="2">NQ</option>
-                <option value="3">CL</option>
-                <option value="4">GC</option>
-                <option value="5">ZN</option>
+                <option value="1">S&P 500 Futures</option>
+                <option value="2">Nasdaq Futures</option>
+                <option value="3">Crude Oil WTI Futures</option>
+                <option value="4">Gold Futures</option>
+                <option value="5">US 10 Year T-Note Futures</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="ndays">Nº of days to test</label>
+            <label for="ndays">Time frame</label>
             <select name="ndays" id="ndays" class="form-control">
                 <option value="1">1 month</option>
                 <option value="2">3 months</option>
@@ -31,9 +31,18 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="accuracy">Accuracy</label>
+            <select name="accuracy" id="accuracy" class="form-control">
+                <!--<option value="0">Any</option>-->
+                <option value="1">1 week</option>
+                <option selected="selected" value="2">1 month</option>
+                <option value="3">3 months</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="correlation">Correlation</label>
             <select name="correlation" id="correlation" class="form-control">
-                <option value="0">Any</option>
+                <!--<option value="0">Any</option>-->
                 <option value="1">Over 0</option>
                 <option value="2">Over 0.25</option>
                 <option value="3">Over 0.5</option>
