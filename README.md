@@ -24,6 +24,7 @@ Once the "Send" button is clicked, the app checks if today is a new day, if so i
 Data is normalized and then the app calculates the %Change.
 
 I chose the Pearson correlation coefficient formula
+
 ![corr formula](https://github.com/3dvg/correlations_webApp/blob/master/imgs/pearson.svg)
 
 The scanner calculates correlations and the ones that make the cut with the correlation filter are sent to a function that takes the data and builds a chart. Plotting the current time frame, the occurrence, and the followup of that occurrence.
@@ -36,6 +37,14 @@ The scanner calculates correlations and the ones that make the cut with the corr
 
 This chart shows a 61% correlated occurrence between the last month of price activity and its occurrence found in Dec 2018. The follow-up of this occurrence resulted in a 6.88% performance in the next month. 
 
+Full example --> 
+We want to find occurrences in the S&P500 futures with a correlation over 50% between this current month and any other month in the last 10 years of data. We want to scan using a step of 1 week.
+
+![ex1](https://github.com/3dvg/correlations_webApp/blob/master/imgs/ex1.png)
+
+The scannner found 5 occurrences. The oldest one is from 2006. All of these occurrences resulted in a positive gain ranging from 2.22% up to 6.88% over the follow-up month of each occurrence.
+
+![ex2](https://github.com/3dvg/correlations_webApp/blob/master/imgs/ex2.png)
 
 Live test video because Github Pages doesn't allow Python3-Flask webapps: 
 https://youtu.be/9CBFMtaiaX4
