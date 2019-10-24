@@ -1,6 +1,6 @@
 # correlations_webApp
 
- Technologies I used: 
+ ### Technologies I used: 
 - Python 3
 - Pandas
 - Quandl
@@ -15,13 +15,16 @@ I was inspired by "Paul Tudor Jones - Trader Documentary 1987". Where they run c
 
 The goal of this project was to automatize what they did in the documentary. 
 
+### How it works
 In the app we can find:
+
+![app](https://github.com/3dvg/correlations_webApp/blob/master/imgs/app.png)
+
 - Instrument: the instrument to run the scanner on.
 - Time frame: the size of the data you want to scan. 
 - Lookback: the number of days you want to scan through.
 - Accuracy: the step of the scanner. A 1 week step means the scanner will loop with more frequency than with a 1 month step. A shorter step makes the scanner run slower, but could result in more occurrences.
 - Correlation: to filter highly correlated occurrences.
-![app](https://github.com/3dvg/correlations_webApp/blob/master/imgs/app.png)
 
 Example:
 
@@ -41,7 +44,7 @@ For the correlations I chose the Pearson correlation coefficient formula:
 
 ![corr formula](https://github.com/3dvg/correlations_webApp/blob/master/imgs/pearson.svg)
 
-The scanner calculates correlations and the ones that make the cut with the correlation filter are sent to a function that takes the data and builds a chart. Plotting the current time frame, the occurrence, and the followup of that occurrence.
+The scanner calculates correlations and the ones that make the cut with the correlation filter are sent to a function that takes the data and builds a chart. Plotting the current time frame, occurrence, and followup of each occurrence.
 
 ![chart](https://github.com/3dvg/correlations_webApp/blob/master/imgs/chart.png)
 
@@ -49,9 +52,9 @@ The scanner calculates correlations and the ones that make the cut with the corr
 - Blue line: Correlated occurrence.
 - Green line: Follow-up of the correlated occurrence. 
 
-This chart shows a 61% correlated occurrence between the last month of price activity and its occurrence found in Dec 2018. The follow-up of this occurrence resulted in a 6.88% performance in the next month. 
+This chart shows a 61% correlated occurrence between the current month of price activity and its occurrence found in Dec 2018. The follow-up of this occurrence resulted in a 6.88% performance in the next month. 
 
-Full example --> 
+### Full example 
 We want to find occurrences in the S&P500 futures with a correlation over 50% between this current month and any other month in the last 10 years of data. We want to scan using a step of 1 week.
 
 ![ex1](https://github.com/3dvg/correlations_webApp/blob/master/imgs/ex1.png)
