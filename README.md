@@ -10,6 +10,7 @@ In the app we can find:
 - Lookback: the number of days you want to scan through.
 - Accuracy: the step of the scanner. A 1 week step means the scanner will loop with more frequency than with a 1 month step. A shorter step makes the scanner run slower, but could result in more occurrences.
 - Correlation: to filter highly correlated occurrences.
+![app](https://github.com/3dvg/correlations_webApp/blob/master/imgs/app.png)
 
 Example:
   Instrument    Time frame   Lookback   Accuracy   Correlation
@@ -22,11 +23,18 @@ Once the "Send" button is clicked, the app checks if today is a new day, if so i
 
 Data is normalized and then the app calculates the %Change.
 
-The scanner calculates correlations and the ones that make the cut are sent to a function that takes the data and builds a chart. Plotting current time frame, the occurrence, and the followup of that occurrence.
-
 I chose the Pearson correlation coefficient formula
-(https://wikimedia.org/api/rest_v1/media/math/render/svg/f76ccfa7c2ed7f5b085115086107bbe25d329cec)
+![corr formula](https://github.com/3dvg/correlations_webApp/blob/master/imgs/pearson.svg)
 
+The scanner calculates correlations and the ones that make the cut with the correlation filter are sent to a function that takes the data and builds a chart. Plotting the current time frame, the occurrence, and the followup of that occurrence.
+
+![chart](https://github.com/3dvg/correlations_webApp/blob/master/imgs/chart.png)
+
+- Black line: Last month of activity. 
+- Blue line: Correlated occurrence.
+- Green line: Follow-up of the correlated occurrence. 
+
+This chart shows a 61% correlated occurrence between the last month of price activity and its occurrence found in Dec 2018. The follow-up of this occurrence resulted in a 6.88% performance in the next month. 
 
 
 Live test video because Github Pages doesn't allow Python3-Flask webapps: 
