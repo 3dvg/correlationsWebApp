@@ -11,9 +11,9 @@
 - CSS
 - JS
 
-I was inspired by "Paul Tudor Jones - Trader Documentary 1987". Where they run correlations between the bull market they had at the time and the one in the 1920s. The correlation turned out to be over 90% and they indeed predicted the 1987 Crash.
+The inspiration came from "Paul Tudor Jones - Trader Documentary 1987", where they run correlations between the bull market they had at the time and the one in the 1920s. The correlation turned out to be over 90% and they indeed predicted the 1987 Crash.
 
-The goal of this project was to automatize what they did in the documentary. 
+The goal of this project was to automate what they did in the documentary. 
 
 ### How it works
 In the app we can find:
