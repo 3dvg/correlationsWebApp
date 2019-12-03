@@ -65,6 +65,7 @@ The scannner found 5 occurrences. The oldest one is from 2006. All of these occu
 
 ### Update
 By the time we ran the scanner -- 10/23/2019 -- S&P500 Futures (ES) was trading at 3006.
+
 It's been a bit over 1 month -- 12/03/2019 -- and the S&P500 Futures (ES) is trading at 3106 (+3.3%)
 
 The peak was 3155, +5% since we ran the scanner 1 month ago.
