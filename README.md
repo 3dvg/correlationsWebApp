@@ -73,7 +73,7 @@ The peak was 3155, +5% since we ran the scanner 1 month ago.
 **This means our forecast was successful**
 >*The scanner found 5 occurrences. The oldest one is from 2006. All of these occurrences resulted in a positive gain ranging from 2.22% up to 6.88% as we can see in the follow-up month of each occurrence.*
 
-Live test video because Github Pages doesn't allow Python3-Flask web apps: 
+Live test video: 
 https://youtu.be/9CBFMtaiaX4
 
 [![Live test](https://img.youtube.com/vi/9CBFMtaiaX4/0.jpg)](https://youtu.be/9CBFMtaiaX4)
